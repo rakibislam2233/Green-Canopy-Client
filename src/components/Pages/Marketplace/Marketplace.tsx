@@ -4,7 +4,7 @@ import Image from "next/image";
 import locateImage from "@/assets/markateplace/markateplace.png";
 import MarketplaceCard from "./MarketplaceCard";
 import { useGetProductsQuery } from "@/redux/features/products/productsApi";
-import { IProduct } from "@/types/productType";
+import { IProduct } from "@/types/product";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import NoDataFound from "@/components/NoDataFound/NoDataFound";

@@ -25,46 +25,56 @@ const Testimonials = () => {
       name: "Sarah Johnson",
       role: "Homeowner",
       company: "Residential Customer",
-      message: "Hort Spec transformed my backyard with beautiful oak trees and fruit trees. Their expert advice on tree placement and care has made my garden the envy of the neighborhood. The trees are thriving and growing beautifully!",
+      message:
+        "Hort Spec transformed my backyard with beautiful oak trees and fruit trees. Their expert advice on tree placement and care has made my garden the envy of the neighborhood. The trees are thriving and growing beautifully!",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face"
+      image:
+        "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face",
     },
     {
       id: 2,
       name: "Mike Chen",
       role: "Landscape Contractor",
       company: "GreenScape Designs",
-      message: "As a professional landscaper, I rely on Hort Spec for quality trees and plants. Their inventory is excellent, prices are competitive, and the trees always arrive in perfect condition. Highly recommended for commercial projects.",
+      message:
+        "As a professional landscaper, I rely on Hort Spec for quality trees and plants. Their inventory is excellent, prices are competitive, and the trees always arrive in perfect condition. Highly recommended for commercial projects.",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+      image:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     },
     {
       id: 3,
       name: "Emma Rodriguez",
       role: "Property Manager",
       company: "Sunset Communities",
-      message: "Hort Spec helped us beautify our entire residential complex with native shade trees. Their team was professional, knowledgeable, and completed the project on time. The results exceeded our expectations!",
+      message:
+        "Hort Spec helped us beautify our entire residential complex with native shade trees. Their team was professional, knowledgeable, and completed the project on time. The results exceeded our expectations!",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop&crop=face"
+      image:
+        "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop&crop=face",
     },
     {
       id: 4,
       name: "David Thompson",
       role: "Garden Enthusiast",
       company: "Home Gardener",
-      message: "I've been buying fruit trees from Hort Spec for three years now. Their Japanese maples and apple trees are exceptional quality. The staff is incredibly knowledgeable and always provides helpful growing tips.",
+      message:
+        "I've been buying fruit trees from Hort Spec for three years now. Their Japanese maples and apple trees are exceptional quality. The staff is incredibly knowledgeable and always provides helpful growing tips.",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+      image:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
     },
     {
       id: 5,
       name: "Lisa Parker",
       role: "Business Owner",
       company: "Riverside Cafe",
-      message: "We wanted to create a beautiful outdoor dining space, and Hort Spec delivered perfectly. They provided stunning ornamental trees that create the perfect ambiance for our customers. Great service and beautiful results!",
+      message:
+        "We wanted to create a beautiful outdoor dining space, and Hort Spec delivered perfectly. They provided stunning ornamental trees that create the perfect ambiance for our customers. Great service and beautiful results!",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
-    }
+      image:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    },
   ];
 
   const nextTestimonial = () => {
@@ -72,7 +82,9 @@ const Testimonials = () => {
   };
 
   const prevTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length
+    );
   };
 
   const goToSlide = (index: number) => {
@@ -94,7 +106,8 @@ const Testimonials = () => {
           </h2>
           <div className="w-20 h-1 bg-green-500 mx-auto mt-5"></div>
           <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
-            Hear from satisfied customers who have transformed their spaces with our quality trees and expert services
+            Hear from satisfied customers who have transformed their spaces with
+            our quality trees and expert services
           </p>
         </motion.div>
 
@@ -104,7 +117,7 @@ const Testimonials = () => {
             {/* Background decoration */}
             <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-primary-100 to-emerald-100 rounded-full -translate-x-16 -translate-y-16"></div>
             <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-br from-teal-100 to-primary-100 rounded-full translate-x-12 translate-y-12"></div>
-            
+
             {/* Quote icon */}
             <div className="absolute top-6 left-6 text-green-200">
               <FaQuoteLeft size={40} />
@@ -123,12 +136,17 @@ const Testimonials = () => {
                 <p className="text-gray-700 text-lg md:text-xl leading-relaxed mb-6 italic">
                   {testimonials[currentIndex].message}
                 </p>
-                
+
                 {/* Star Rating */}
                 <div className="flex justify-center mb-6">
-                  {[...Array(testimonials[currentIndex].rating)].map((_, index) => (
-                    <FaStar key={index} className="text-yellow-400 text-xl mx-1" />
-                  ))}
+                  {[...Array(testimonials[currentIndex].rating)].map(
+                    (_, index) => (
+                      <FaStar
+                        key={index}
+                        className="text-yellow-400 text-xl mx-1"
+                      />
+                    )
+                  )}
                 </div>
               </div>
 
@@ -140,7 +158,7 @@ const Testimonials = () => {
                     alt={testimonials[currentIndex].name}
                     width={80}
                     height={80}
-                    className="rounded-full border-4 border-green-200"
+                    className="rounded-full border-2 border-primary"
                   />
                 </div>
                 <div className="text-center md:text-left">
@@ -161,16 +179,22 @@ const Testimonials = () => {
           {/* Navigation Arrows */}
           <button
             onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white hover:bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-full p-3 shadow-lg transition-all duration-300 group"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white hover:bg-green-50 border-2 border-primary rounded-full p-3 shadow-lg transition-all duration-300 group"
           >
-            <IoIosArrowBack size={24} className="text-green-600 group-hover:text-green-700" />
+            <IoIosArrowBack
+              size={24}
+              className="text-primary"
+            />
           </button>
-          
+
           <button
             onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white hover:bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-full p-3 shadow-lg transition-all duration-300 group"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white hover:bg-green-50 border-2 border-primary rounded-full p-3 shadow-lg transition-all duration-300 group"
           >
-            <IoIosArrowForward size={24} className="text-green-600 group-hover:text-green-700" />
+            <IoIosArrowForward
+              size={24}
+              className="text-primary"
+            />
           </button>
         </div>
 
@@ -181,9 +205,7 @@ const Testimonials = () => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentIndex
-                  ? "bg-green-500 scale-125"
-                  : "bg-green-200 hover:bg-green-300"
+                index === currentIndex ? "bg-primary " : "bg-primary opacity-15"
               }`}
             />
           ))}

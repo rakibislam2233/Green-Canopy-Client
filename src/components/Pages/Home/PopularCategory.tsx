@@ -1,13 +1,12 @@
 "use client";
 import { useGetAllCategoryQuery } from "@/redux/features/category/categoryApi";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
-import Image from "next/image"; // Optional for optimized images
+import { motion } from "framer-motion";
+import Image from "next/image";
 import { imageBaseUrl } from "@/config/imageBaseUrl";
 import Link from "next/link";
-import { useRef } from "react";
+import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { FaArrowRight } from "react-icons/fa";
 import PopularCategorySkeleton from "./PopularCategorySkeleton";
 
 export interface ICategory {
@@ -22,131 +21,250 @@ export interface ICategory {
 const PopularCategory = () => {
   const { data: responseData, isLoading } = useGetAllCategoryQuery(undefined);
   const categoryData = responseData?.data?.attributes?.results;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsPerPage] = useState(4); // Show 6 categories per slide
 
-  // Slick settings for auto slide and responsive behavior
-  const settings = {
-    infinite: true,
-    speed: 500,
-    arrows: false, // Disable default arrows, we'll create custom ones
-    slidesToShow: 6,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000, // Increased for better viewing
-    pauseOnHover: true, // Pause on hover for better user experience
-    pauseOnFocus: true, // Pause when focused
-    dots: false,
-    cssEase: "ease-in-out", // Smoother animation
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          autoplaySpeed: 3500,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          autoplaySpeed: 3000,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          autoplaySpeed: 2500,
-        },
-      },
-    ],
-  };
-
-  // Create a ref for the slider instance
-  const sliderRef = useRef<Slider | null>(null);
-
-  // Function to go to the next slide
-  const goToNext = () => {
-    if (sliderRef.current) {
-      sliderRef.current.slickNext();
+  // Static categories data as fallback
+  const staticCategories: ICategory[] = [
+    {
+      _id: 1,
+      categoryName: "Fruit Trees",
+      categoryImage: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=300&h=300&fit=crop",
+      isDeleted: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      _id: 2,
+      categoryName: "Shade Trees",
+      categoryImage: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=300&fit=crop",
+      isDeleted: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      _id: 3,
+      categoryName: "Flowering Trees",
+      categoryImage: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=300&h=300&fit=crop",
+      isDeleted: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      _id: 4,
+      categoryName: "Evergreen Trees",
+      categoryImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop",
+      isDeleted: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      _id: 5,
+      categoryName: "Ornamental Trees",
+      categoryImage: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=300&fit=crop",
+      isDeleted: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      _id: 6,
+      categoryName: "Native Trees",
+      categoryImage: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=300&fit=crop",
+      isDeleted: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      _id: 7,
+      categoryName: "Dwarf Trees",
+      categoryImage: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=300&fit=crop",
+      isDeleted: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      _id: 8,
+      categoryName: "Palm Trees",
+      categoryImage: "https://images.unsplash.com/photo-1520637836862-4d197d17c50a?w=300&h=300&fit=crop",
+      isDeleted: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
+  ];
+
+  // Use API data if available, otherwise use static data
+  const allCategories = (categoryData && categoryData.length > 0) ? categoryData : staticCategories;
+  const totalPages = Math.ceil(allCategories.length / itemsPerPage);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalPages);
   };
 
-  // Function to go to the previous slide
-  const goToPrev = () => {
-    if (sliderRef.current) {
-      sliderRef.current.slickPrev();
-    }
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalPages) % totalPages);
   };
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  const getCurrentCategories = () => {
+    const startIndex = currentIndex * itemsPerPage;
+    return allCategories.slice(startIndex, startIndex + itemsPerPage);
+  };
+
+
+  if (isLoading) {
+    return (
+      <section className="w-full py-20 bg-gradient-to-br from-green-50 to-emerald-50">
+        <div className="container mx-auto px-5">
+          <motion.div className="text-center mb-16">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-gray-800">
+              Popular <span className="text-primary">Categories</span>
+            </h2>
+            <div className="w-20 h-1 bg-primary mx-auto mt-5"></div>
+            <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
+              Discover our wide variety of trees and plants, carefully categorized for your gardening needs
+            </p>
+          </motion.div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+            {Array(6)
+              .fill(0)
+              .map((_, idx) => (
+                <PopularCategorySkeleton key={idx} />
+              ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className="w-full p-5 py-16 z-0 relative bg-gradient-to-br from-green-50 to-emerald-50">
-      {/* Title Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-gray-800">
-          Popular <span className="text-green-600">Categories</span>
-        </h1>
-        <div className="w-20 h-1 bg-green-500 mx-auto mt-5"></div>
-        <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
-          Discover our wide variety of trees and plants, carefully categorized for your gardening needs
-        </p>
-      </div>
+    <section className="w-full py-20 bg-gradient-to-br from-green-50 to-emerald-50">
+      <div className="container mx-auto px-5">
+        {/* Title Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-gray-800">
+            Popular <span className="text-primary">Categories</span>
+          </h2>
+          <div className="w-20 h-1 bg-primary mx-auto mt-5"></div>
+          <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
+            Discover our wide variety of trees and plants, carefully categorized for your gardening needs
+          </p>
+        </motion.div>
 
-      <div className="w-full container mx-auto">
-        <div className="relative">
-          {/* Custom Previous Button */}
+        {/* Categories Slider */}
+        <div className="relative max-w-7xl mx-auto">
+          {/* Navigation Arrows */}
           <button
-            className=" size-10 absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full z-10"
-            onClick={goToPrev}
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white hover:bg-green-50 border-2 border-primary rounded-full p-3 shadow-lg transition-all duration-300 group z-10"
           >
-            <IoIosArrowBack size={24} />
+            <IoIosArrowBack size={24} className="text-primary group-hover:text-green-700" />
+          </button>
+          
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white hover:bg-green-50 border-2 border-primary rounded-full p-3 shadow-lg transition-all duration-300 group z-10"
+          >
+            <IoIosArrowForward size={24} className="text-primary group-hover:text-green-700" />
           </button>
 
-          {isLoading ? (
-            <Slider {...settings} ref={sliderRef}>
-              {Array(4)
-                .fill(0)
-                .map((_, idx) => (
-                  <PopularCategorySkeleton key={idx} />
-                ))}
-            </Slider>
-          ) : (
-            <Slider {...settings} ref={sliderRef}>
-              {categoryData?.map((category: ICategory, index: number) => (
-                <div
-                  key={index}
-                  className="w-full flex flex-col items-center justify-center group"
+          {/* Categories Container */}
+          <div className="w-full p-4 overflow-hidden">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ duration: 0.5 }}
+              className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              {getCurrentCategories().map((category: ICategory, index: number) => (
+                <motion.div
+                  key={category._id}
+                  className="group"
                 >
-                  <Link
-                    href={`/marketplace?categoryName=${category?.categoryName}`}
-                  >
-                    <div className="size-28 md:size-32 mx-auto overflow-hidden rounded-full flex justify-center items-center relative group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-xl">
-                      <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-emerald-500/20 rounded-full group-hover:from-green-400/30 group-hover:to-emerald-500/30 transition-all duration-300"></div>
-                      <Image
-                        src={`${imageBaseUrl}${category?.categoryImage}`}
-                        alt={category?.categoryName}
-                        fill
-                        className="object-cover rounded-full"
-                      />
+                  <Link href={`/marketplace?categoryName=${category?.categoryName}`}>
+                    <div className="bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+                      {/* Image Section */}
+                      <div className="relative h-32 md:h-40 overflow-hidden">
+                        <Image
+                          src={
+                            category?.categoryImage?.startsWith('http') 
+                              ? category.categoryImage 
+                              : `${imageBaseUrl}${category?.categoryImage}`
+                          }
+                          alt={category?.categoryName}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+                        
+                        {/* Explore badge - positioned in top right */}
+                        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <span className="bg-white/90 text-green-600 px-2 py-1 rounded-full text-xs font-medium shadow-md">
+                            Explore
+                          </span>
+                        </div>
+                      
+                      </div>
+                      
+                      {/* Content Section */}
+                      <div className="p-4 text-center">
+                         <h3 className="font-semibold text-sm md:text-base leading-tight">
+                            {category?.categoryName}
+                          </h3>
+                        <div className="flex items-center justify-center space-x-1 text-xs text-gray-500">
+                          <span>View Products</span>
+                          <FaArrowRight className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                        </div>
+                      </div>
                     </div>
                   </Link>
-                  <p className="category-name mt-4 text-center font-medium text-gray-700 group-hover:text-green-600 transition-colors duration-300">
-                    {category?.categoryName}
-                  </p>
-                </div>
+                </motion.div>
               ))}
-            </Slider>
-          )}
+            </motion.div>
+          </div>
 
-          {/* Custom Next Button */}
-          <button
-            className="size-10 rounded-full absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 z-10"
-            onClick={goToNext}
-          >
-            <IoIosArrowForward size={24} />
-          </button>
+          {/* Dots Navigation */}
+          <div className="flex justify-center mt-8 space-x-2">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? "bg-primary"
+                    : "bg-primary opacity-15"
+                }`}
+              />
+            ))}
+          </div>
         </div>
+
+        {/* View All Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="text-center mt-12"
+        >
+          <Link
+            href="/categories"
+            className="inline-flex items-center bg-primary text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl group"
+          >
+            View All Categories
+            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

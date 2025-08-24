@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { HiOutlineHome } from "react-icons/hi";
 import "react-image-gallery/styles/css/image-gallery.css"; // Import styles
-import MarketplaceCard from "../MarketplaceCard";
+// import MarketplaceCard from "../MarketplaceCard";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import {
   addToWishlist,
@@ -19,8 +19,9 @@ import { useRouter } from "next/navigation";
 import useUser from "@/hook/useUser";
 import { toast } from "sonner";
 import EmblaCarousel from "./EmblaCarousel";
-import MarketplaceDetailsSkeleton from "./MarketplaceDetailsSkeleton";
-const MarketplaceDetailPage = ({ slug }: { slug: string }) => {
+import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
+import ProductCard from "../ProductCard";
+const ProductDetails = ({ slug }: { slug: string }) => {
   const { data: responseData, isLoading } = useGetSingleProductQuery(slug, {
     skip: !slug,
   });
@@ -167,7 +168,7 @@ const MarketplaceDetailPage = ({ slug }: { slug: string }) => {
   if (isLoading || !productData) {
     return (
       <div className="w-full md:container mx-auto px-5 py-16">
-        <MarketplaceDetailsSkeleton />
+        <ProductDetailsSkeleton />
       </div>
     );
   }
@@ -361,7 +362,7 @@ const MarketplaceDetailPage = ({ slug }: { slug: string }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-8">
               {relatedProducts?.map((product: IProduct) => (
                 <div key={product?._id}>
-                  <MarketplaceCard product={product} />
+                  <ProductCard product={product} />
                 </div>
               ))}
             </div>
@@ -374,4 +375,4 @@ const MarketplaceDetailPage = ({ slug }: { slug: string }) => {
   );
 };
 
-export default MarketplaceDetailPage;
+export default ProductDetails;

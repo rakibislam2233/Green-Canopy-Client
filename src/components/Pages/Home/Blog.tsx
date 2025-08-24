@@ -148,16 +148,22 @@ const Blog = () => {
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white hover:bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-full p-3 shadow-lg transition-all duration-300 group z-10"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white hover:bg-green-50 border-2 border-primary rounded-full p-3 shadow-lg transition-all duration-300 group z-10"
           >
-            <IoIosArrowBack size={24} className="text-green-600 group-hover:text-green-700" />
+            <IoIosArrowBack
+              size={24}
+              className="text-primary group-hover:text-green-700"
+            />
           </button>
-          
+
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white hover:bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-full p-3 shadow-lg transition-all duration-300 group z-10"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white hover:bg-green-50 border-2 border-primary rounded-full p-3 shadow-lg transition-all duration-300 group z-10"
           >
-            <IoIosArrowForward size={24} className="text-green-600 group-hover:text-green-700" />
+            <IoIosArrowForward
+              size={24}
+              className="text-primary group-hover:text-green-700"
+            />
           </button>
 
           {/* Blog Cards Container */}
@@ -188,22 +194,22 @@ const Blog = () => {
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="p-6">
                     <div className="flex items-center text-xs text-gray-500 mb-3">
                       <FaCalendarAlt className="mr-2" />
                       <span className="mr-4">{post.date}</span>
                       <span>{post.readTime}</span>
                     </div>
-                    
+
                     <h3 className="text-lg font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-green-600 transition-colors duration-300">
                       {post.title}
                     </h3>
-                    
+
                     <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
                       {post.excerpt}
                     </p>
-                    
+
                     <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                       <div className="flex items-center text-xs text-gray-500">
                         <FaUser className="mr-2" />
@@ -231,8 +237,8 @@ const Blog = () => {
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   index === currentIndex
-                    ? "bg-green-500 scale-125"
-                    : "bg-green-200 hover:bg-green-300"
+                    ? "bg-primary "
+                    : "bg-primary opacity-15"
                 }`}
               />
             ))}

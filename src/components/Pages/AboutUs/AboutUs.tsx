@@ -1,7 +1,6 @@
 "use client";
 import locateImage from "@/assets/markateplace/markateplace.png";
 import image from "@/assets/banner/contactus.png";
-import { useGetAllServiceQuery } from "@/redux/features/service/serviceApi";
 import { motion } from "framer-motion";
 import Image from "next/image";
 

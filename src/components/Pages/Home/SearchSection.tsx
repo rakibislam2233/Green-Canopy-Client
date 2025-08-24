@@ -8,10 +8,10 @@ import { Form, Select, Spin } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { ICategory } from "./PopularCategory";
 import { useGetAllCompanyQuery } from "@/redux/features/company/companyApi";
-import { IProduct } from "@/types/productType";
 import { ICompany } from "@/types/horticultureType";
 import { useGetProductsQuery } from "@/redux/features/products/productsApi";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { IProduct } from "@/types/product";
 
 interface SearchSectionProps {
   onSearch: (values: {

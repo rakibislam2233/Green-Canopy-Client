@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 // Define a base query that accesses the Redux state for the token
 const baseQuery = fetchBaseQuery({
- baseUrl: `http://192.168.176.1:7575/api/v1`,
+  baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1`,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
 

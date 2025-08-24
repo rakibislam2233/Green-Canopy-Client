@@ -1,8 +1,5 @@
 "use client";
-import NoDataFound from "@/components/NoDataFound/NoDataFound";
 import { imageBaseUrl } from "@/config/imageBaseUrl";
-import { useGetAllServiceQuery } from "@/redux/features/service/serviceApi";
-import { Spin } from "antd";
 import Image from "next/image";
 import ServiceSkeleton from "./ServiceSkeleton";
 import { motion } from "framer-motion";
@@ -82,32 +79,27 @@ const Service = () => {
     }
   ];
 
-  const {
-    data: responseData,
-    isLoading,
-    isError,
-  } = useGetAllServiceQuery(undefined);
-  const apiServices = responseData?.data?.attributes?.results;
-  
-  // Use API data if available, otherwise use static data
-  const allServices = (apiServices && apiServices.length > 0) ? apiServices : staticServices;
 
-  let content = null;
+  return (
+    <section className="w-full p-5 py-16 bg-gradient-to-b from-white to-gray-50">
+      {/* Title Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-center mb-16"
+      >
+        <h1 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-gray-800">
+          Our <span className="text-green-600">Services</span>
+        </h1>
+        <div className="w-20 h-1 bg-green-500 mx-auto mt-5"></div>
+        <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
+          Professional horticulture services to help your garden flourish and your business grow
+        </p>
+      </motion.div>
 
-  if (isLoading) {
-    content = (
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto p-5">
-        {Array(6)
-          .fill(0)
-          .map((_, idx) => (
-            <ServiceSkeleton key={idx} />
-          ))}
-      </div>
-    );
-  } else {
-    content = (
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto p-5">
-        {allServices?.map((service: IService, index: number) => {
+         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto p-5">
+        {staticServices?.map((service: IService, index: number) => {
           return (
             <motion.div
               key={service?._id}
@@ -154,28 +146,6 @@ const Service = () => {
           );
         })}
       </div>
-    );
-  }
-
-  return (
-    <section className="w-full p-5 py-16 bg-gradient-to-b from-white to-gray-50">
-      {/* Title Section */}
-      <motion.div 
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-16"
-      >
-        <h1 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-gray-800">
-          Our <span className="text-green-600">Services</span>
-        </h1>
-        <div className="w-20 h-1 bg-green-500 mx-auto mt-5"></div>
-        <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
-          Professional horticulture services to help your garden flourish and your business grow
-        </p>
-      </motion.div>
-
-      {content}
     </section>
   );
 };

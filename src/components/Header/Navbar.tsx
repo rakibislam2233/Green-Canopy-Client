@@ -24,8 +24,8 @@ const Navbar = () => {
   const navLink = [
     { label: "Home", href: "/" },
     {
-      label: "Marketplace",
-      href: "/marketplace",
+      label: "Products",
+      href: "/products",
     },
     {
       label: "Locate",
@@ -43,8 +43,8 @@ const Navbar = () => {
   const subNavLinks = [
     { label: "Home", href: "/" },
     {
-      label: "Marketplace",
-      href: "/marketplace",
+      label: "Products",
+      href: "/products",
     },
     {
       label: "Locate",
