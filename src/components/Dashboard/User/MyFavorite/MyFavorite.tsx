@@ -13,7 +13,7 @@ import NoDataFound from "@/components/NoDataFound/NoDataFound";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { useGetProductsQuery } from "@/redux/features/products/productsApi";
-import { IProduct, ISize } from "@/types/productType";
+import { IProduct, ISize } from "@/types/product";
 import { imageBaseUrl } from "@/config/imageBaseUrl";
 import { useAppSelector } from "@/redux/hooks";
 
@@ -117,7 +117,7 @@ const MyFavorite: React.FC = () => {
               );
               return (
                 <div key={item.id} className="border rounded-lg shadow-lg">
-                  <Link href={`/marketplace/${item.slug}`}>
+                  <Link href={`/products/${item.slug}`}>
                     <div className="w-full h-56 relative ">
                       <Image
                         src={item.image}

@@ -22,78 +22,10 @@ const PopularCategory = () => {
   const { data: responseData, isLoading } = useGetAllCategoryQuery(undefined);
   const categoryData = responseData?.data?.attributes?.results;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerPage] = useState(4); // Show 6 categories per slide
-
-  // Static categories data as fallback
-  const staticCategories: ICategory[] = [
-    {
-      _id: 1,
-      categoryName: "Fruit Trees",
-      categoryImage: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=300&h=300&fit=crop",
-      isDeleted: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      _id: 2,
-      categoryName: "Shade Trees",
-      categoryImage: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=300&fit=crop",
-      isDeleted: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      _id: 3,
-      categoryName: "Flowering Trees",
-      categoryImage: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=300&h=300&fit=crop",
-      isDeleted: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      _id: 4,
-      categoryName: "Evergreen Trees",
-      categoryImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop",
-      isDeleted: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      _id: 5,
-      categoryName: "Ornamental Trees",
-      categoryImage: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=300&fit=crop",
-      isDeleted: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      _id: 6,
-      categoryName: "Native Trees",
-      categoryImage: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=300&fit=crop",
-      isDeleted: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      _id: 7,
-      categoryName: "Dwarf Trees",
-      categoryImage: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=300&fit=crop",
-      isDeleted: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      _id: 8,
-      categoryName: "Palm Trees",
-      categoryImage: "https://images.unsplash.com/photo-1520637836862-4d197d17c50a?w=300&h=300&fit=crop",
-      isDeleted: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
-  ];
+  const [itemsPerPage] = useState(4); 
 
   // Use API data if available, otherwise use static data
-  const allCategories = (categoryData && categoryData.length > 0) ? categoryData : staticCategories;
+  const allCategories = (categoryData && categoryData.length > 0) ? categoryData : [];
   const totalPages = Math.ceil(allCategories.length / itemsPerPage);
 
   const nextSlide = () => {
@@ -190,7 +122,7 @@ const PopularCategory = () => {
                   key={category._id}
                   className="group"
                 >
-                  <Link href={`/marketplace?categoryName=${category?.categoryName}`}>
+                  <Link href={`/products?categoryName=${category?.categoryName}`}>
                     <div className="bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 border border-gray-100">
                       {/* Image Section */}
                       <div className="relative h-32 md:h-40 overflow-hidden">

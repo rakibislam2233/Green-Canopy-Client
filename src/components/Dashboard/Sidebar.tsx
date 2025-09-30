@@ -23,8 +23,6 @@ import { logoutUser } from "@/redux/features/auth/authSlice";
 
 const Sidebar = () => {
   const { user } = useUser();
-  const [loginUser, setLoginUser] = useState(user);
-
   const [visible, setVisible] = useState(false);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -76,7 +74,6 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    setLoginUser(null);
     router.push("/login");
   };
 
@@ -101,7 +98,6 @@ const Sidebar = () => {
                 className="object-cover rounded-full"
               />
             </Link>
-            <h1 className="text-lg italic">Horticulture Specialists</h1>
           </div>
         }
         placement="left"
@@ -121,10 +117,10 @@ const Sidebar = () => {
             </div>
             <div className="flex flex-col">
               <h2 className="text-md font-semibold text-gray-800">{`${
-                loginUser && loginUser?.fullName
+                user && user?.fullName
               }`}</h2>
               <p className="text-sm text-gray-600">{`${
-                loginUser && loginUser?.role === "businessman"
+                user && user?.role === "businessman"
                   ? "Business"
                   : "User"
               }`}</p>
@@ -162,29 +158,6 @@ const Sidebar = () => {
 
       {/* Desktop Sidebar */}
       <div className="w-[50%] md:w-[18%] h-full fixed hidden md:block overflow-y-scroll pb-32 bg-[#FFFFFF]">
-        <div className="flex justify-between items-center p-4 bg-[#F8F9FA] rounded-lg">
-          <div className="flex items-center gap-3 px-5">
-            <div className="size-[50px] relative">
-              <Image
-                src={`${imageBaseUrl}${loginUser?.image}`}
-                fill
-                className="rounded-full cursor-pointer object-cover absolute"
-                alt="User Profile"
-              />
-            </div>
-            <div className="flex flex-col">
-              <h2 className="text-md font-semibold text-gray-800">{`${
-                loginUser && loginUser?.fullName
-              }`}</h2>
-              <p className="text-sm text-gray-600">{`${
-                loginUser && loginUser?.role === "businessman"
-                  ? "Business"
-                  : "User"
-              }`}</p>
-            </div>
-          </div>
-        </div>
-        <div className="w-full h-[1px] bg-gray-400 mb-4" />
         <ul className="w-full flex flex-col gap-2">
           {sidebarItems.map((item) => (
             <ActiveDashboardLink

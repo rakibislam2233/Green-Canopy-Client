@@ -1,5 +1,5 @@
 import { imageBaseUrl } from "@/config/imageBaseUrl";
-import { IProductImage } from "@/types/productType";
+import { IProductImage } from "@/types/product";
 import Image from "next/image";
 import React from "react";
 

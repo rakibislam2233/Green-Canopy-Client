@@ -8,8 +8,7 @@ import { IProduct, ISize } from "@/types/product";
 import { useEffect, useState } from "react";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { HiOutlineHome } from "react-icons/hi";
-import "react-image-gallery/styles/css/image-gallery.css"; // Import styles
-// import MarketplaceCard from "../MarketplaceCard";
+import "react-image-gallery/styles/css/image-gallery.css"; 
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import {
   addToWishlist,
@@ -153,8 +152,8 @@ const ProductDetails = ({ slug }: { slug: string }) => {
       ),
     },
     {
-      href: "/marketplace",
-      title: "Marketplace",
+      href: "/products",
+      title: "Products",
     },
     {
       title: productData?.productName || "Product",

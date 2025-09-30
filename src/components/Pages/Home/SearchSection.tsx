@@ -1,17 +1,17 @@
 "use client";
 import InputComponent from "@/components/UI/InputComponent";
 import { useGetAllCategoryQuery } from "@/redux/features/category/categoryApi";
+import { useGetAllCompanyQuery } from "@/redux/features/company/companyApi";
 import { useGetCompanyTypesQuery } from "@/redux/features/companyType/companyTypeApi";
+import { useGetProductsQuery } from "@/redux/features/products/productsApi";
+import { ICompany } from "@/types/company";
 import { ICompanyType } from "@/types/companyTyes";
+import { IProduct } from "@/types/product";
 import { ISearchSectionProps } from "@/types/types";
 import { Form, Select, Spin } from "antd";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { ICategory } from "./PopularCategory";
-import { useGetAllCompanyQuery } from "@/redux/features/company/companyApi";
-import { ICompany } from "@/types/horticultureType";
-import { useGetProductsQuery } from "@/redux/features/products/productsApi";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { IProduct } from "@/types/product";
 
 interface SearchSectionProps {
   onSearch: (values: {

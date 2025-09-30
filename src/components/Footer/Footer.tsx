@@ -39,7 +39,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link href={"/marketplace"} className="hover:text-primary">
+              <Link href={"/products"} className="hover:text-primary">
                 Marketplace
               </Link>
             </li>

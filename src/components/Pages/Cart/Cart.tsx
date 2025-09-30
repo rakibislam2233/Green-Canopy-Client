@@ -31,7 +31,7 @@ import { useApplyCouponMutation } from "@/redux/features/coupon/couponApi";
 import { useGetAdditionalChargeQuery } from "@/redux/features/settings/settingsApi";
 import Swal from "sweetalert2";
 import { useGetProductsQuery } from "@/redux/features/products/productsApi";
-import { IProduct, ISize } from "@/types/productType";
+import { IProduct, ISize } from "@/types/product";
 import { imageBaseUrl } from "@/config/imageBaseUrl";
 
 const breadcrumbItems = [
@@ -176,7 +176,7 @@ const Cart = () => {
       key: "image",
       render: (_, record) => (
         <div className="flex flex-col md:flex-row items-center gap-3">
-          <Link href={`/marketplace/${record?.slug}`}>
+          <Link href={`/products/${record?.slug}`}>
             <div className="size-20 relative">
               <Image
                 fill
@@ -186,7 +186,7 @@ const Cart = () => {
               />
             </div>
           </Link>
-          <Link href={`/marketplace/${record?.slug}`}>
+          <Link href={`/products/${record?.slug}`}>
             <p className="md:text-start text-center hover:underline">
               {record?.name}
             </p>
@@ -283,7 +283,7 @@ const Cart = () => {
         totalAmount: finalTotalPrice,
       }).unwrap();
       if (response?.success) {
-        window.location.href = response.data.attributes.checkoutUrl;
+        window.location.href = response?.data?.attributes?.sessionUrl;
       } else {
         toast.error("Failed to create order.");
       }
@@ -335,7 +335,7 @@ const Cart = () => {
           </div>
           <div className="w-full flex flex-wrap justify-between gap-10 px-5">
             <div className="flex flex-wrap gap-8 items-center">
-              <Link href="/marketplace">
+              <Link href="/products">
                 <button className="px-5 py-2 rounded-lg border bg-primary text-white duration-300 transition-all flex justify-center items-center gap-3">
                   <PiArrowBendUpLeftLight size={20} />
                   <span>Continue Shopping</span>

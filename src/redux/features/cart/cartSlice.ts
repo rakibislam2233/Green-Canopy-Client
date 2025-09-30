@@ -21,12 +21,14 @@ interface CartState {
   cart: ICartItem[];
   totalPrice: number;
   totalCount: number;
+  currentUserId: string | null;
 }
 
 const initialState: CartState = {
   cart: [],
   totalPrice: 0,
   totalCount: 0,
+  currentUserId: null,
 };
 
 // Helper function to calculate the cart's total price
@@ -43,6 +45,56 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    // Action to set current user and load their cart
+    setCartUser: (state, action: PayloadAction<string | null>) => {
+      // If user changes, clear current cart and load user-specific cart from localStorage
+      if (state.currentUserId !== action.payload) {
+        state.currentUserId = action.payload;
+        
+        if (action.payload) {
+          // Load user-specific cart from localStorage
+          const userCartKey = `cart_${action.payload}`;
+          const storedCart = localStorage.getItem(userCartKey);
+          
+          if (storedCart) {
+            try {
+              const parsedCart = JSON.parse(storedCart);
+              state.cart = parsedCart.cart || [];
+              state.totalPrice = calculateCartTotalPrice(state.cart);
+              state.totalCount = calculateCartTotalCount(state.cart);
+            } catch (error) {
+              console.error('Error parsing stored cart:', error);
+              state.cart = [];
+              state.totalPrice = 0;
+              state.totalCount = 0;
+            }
+          } else {
+            // New user or no stored cart
+            state.cart = [];
+            state.totalPrice = 0;
+            state.totalCount = 0;
+          }
+        } else {
+          // User logged out, clear cart
+          state.cart = [];
+          state.totalPrice = 0;
+          state.totalCount = 0;
+        }
+      }
+    },
+    
+    // Helper action to sync cart to localStorage for current user
+    syncCartToStorage: (state) => {
+      if (state.currentUserId) {
+        const userCartKey = `cart_${state.currentUserId}`;
+        const cartData = {
+          cart: state.cart,
+          totalPrice: state.totalPrice,
+          totalCount: state.totalCount,
+        };
+        localStorage.setItem(userCartKey, JSON.stringify(cartData));
+      }
+    },
     addToCart: (
       state,
       action: PayloadAction<Omit<ICartItem, "totalPrice">>
@@ -77,6 +129,17 @@ export const cartSlice = createSlice({
       // Update the overall total price and total count
       state.totalPrice = calculateCartTotalPrice(state.cart);
       state.totalCount = calculateCartTotalCount(state.cart);
+      
+      // Sync to localStorage for current user
+      if (state.currentUserId) {
+        const userCartKey = `cart_${state.currentUserId}`;
+        const cartData = {
+          cart: state.cart,
+          totalPrice: state.totalPrice,
+          totalCount: state.totalCount,
+        };
+        localStorage.setItem(userCartKey, JSON.stringify(cartData));
+      }
     },
 
     updateToCart: (

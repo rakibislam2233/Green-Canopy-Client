@@ -8,7 +8,7 @@ import { Thumb } from "./EmblaCarouselThumbsButton";
 import { imageBaseUrl } from "@/config/imageBaseUrl";
 import Image from "next/image";
 import { MdArrowForwardIos, MdOutlineArrowBackIosNew } from "react-icons/md";
-import {IProductImage } from "@/types/productType";
+import {IProductImage } from "@/types/product";
 
 const EmblaCarousel = ({
   slides,

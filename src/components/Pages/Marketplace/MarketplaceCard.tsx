@@ -1,5 +1,5 @@
 import { imageBaseUrl } from "@/config/imageBaseUrl";
-import { IProduct } from "@/types/productType";
+import { IProduct } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";

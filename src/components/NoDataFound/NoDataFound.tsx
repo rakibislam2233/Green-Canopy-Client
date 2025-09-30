@@ -79,7 +79,7 @@ const NoDataFound = ({
         
         {showSearchButton && (
           <Link
-            href="/marketplace"
+            href="/products"
             className="flex items-center justify-center bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-green-300 px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg group"
           >
             <FaSearch className="mr-2 group-hover:text-primary" />

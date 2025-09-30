@@ -1,39 +1,57 @@
 "use client";
-import SearchSection from "../Home/SearchSection";
 import Image from "next/image";
 import locateImage from "@/assets/markateplace/markateplace.png";
 import ProductCard from "./ProductCard";
+import ProductFilters from "./ProductFilters";
 import { useGetProductsQuery } from "@/redux/features/products/productsApi";
 import { IProduct } from "@/types/product";
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import NoDataFound from "@/components/NoDataFound/NoDataFound";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Pagination } from "antd";
 import ProductSkeleton from "./ProductSkeleton";
+import { FaThLarge, FaList } from "react-icons/fa";
 
-// Component Definition
+interface FilterOptions {
+  search: string;
+  category: string;
+  sortBy: string;
+  priceRange: [number, number];
+  inStock: boolean;
+}
+
 const ProductPage: React.FC = () => {
   const [allProductsData, setAllProductsData] = useState<IProduct[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [filters, setFilters] = useState<FilterOptions>({
+    search: "",
+    category: "",
+    sortBy: "newest",
+    priceRange: [0, 1000],
+    inStock: true,
+  });
+
+  const itemsPerPage = 12;
   const router = useRouter();
   const searchParams = useSearchParams();
-  const searchTerm = searchParams.get("searchTerm");
-  const categoryName = searchParams.get("categoryName");
 
   // Static product data with proper IProduct interface
-  const staticProducts: IProduct[] = [
+  const staticProducts: IProduct[] = useMemo(() => [
     {
       _id: "1",
       productName: "Japanese Maple - Acer Palmatum",
       slug: "japanese-maple-acer-palmatum",
-      productDescription: "Beautiful ornamental tree with stunning red foliage. Perfect for small gardens and landscape accents. Known for its vibrant autumn colors and graceful branching pattern.",
+      productDescription:
+        "Beautiful ornamental tree with stunning red foliage. Perfect for small gardens and landscape accents. Known for its vibrant autumn colors and graceful branching pattern.",
       productImages: [
         {
           _id: "img1",
-          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
-          file: {}
-        }
+          imageUrl:
+            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+          file: {},
+        },
       ],
       sizes: [
         {
@@ -44,36 +62,38 @@ const ProductPage: React.FC = () => {
           discountPrice: 39.99,
           discountPercentage: 13,
           quantity: 15,
-          colors: ["Green", "Red"]
+          colors: ["Green", "Red"],
         },
         {
-          _id: "size2", 
+          _id: "size2",
           size: "M",
           price: 89.99,
           inStock: true,
           discountPrice: 79.99,
           discountPercentage: 11,
           quantity: 8,
-          colors: ["Green", "Red"]
-        }
+          colors: ["Green", "Red"],
+        },
       ],
       category: "Ornamental Trees",
       avgReview: 4.8,
       isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       _id: "2",
       productName: "Oak Tree - Quercus Alba",
       slug: "oak-tree-quercus-alba",
-      productDescription: "Majestic white oak tree, perfect for large landscapes. Provides excellent shade and supports local wildlife. A true classic for any property.",
+      productDescription:
+        "Majestic white oak tree, perfect for large landscapes. Provides excellent shade and supports local wildlife. A true classic for any property.",
       productImages: [
         {
           _id: "img2",
-          imageUrl: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop",
-          file: {}
-        }
+          imageUrl:
+            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop",
+          file: {},
+        },
       ],
       sizes: [
         {
@@ -84,7 +104,7 @@ const ProductPage: React.FC = () => {
           discountPrice: 109.99,
           discountPercentage: 13,
           quantity: 5,
-          colors: ["Green"]
+          colors: ["Green"],
         },
         {
           _id: "size4",
@@ -94,26 +114,28 @@ const ProductPage: React.FC = () => {
           discountPrice: 169.99,
           discountPercentage: 11,
           quantity: 3,
-          colors: ["Green"]
-        }
+          colors: ["Green"],
+        },
       ],
       category: "Shade Trees",
       avgReview: 4.9,
       isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       _id: "3",
       productName: "Apple Tree - Honeycrisp",
       slug: "apple-tree-honeycrisp",
-      productDescription: "Premium honeycrisp apple tree producing sweet, crispy apples. Self-pollinating variety perfect for home orchards. Harvest fresh apples right from your backyard.",
+      productDescription:
+        "Premium honeycrisp apple tree producing sweet, crispy apples. Self-pollinating variety perfect for home orchards. Harvest fresh apples right from your backyard.",
       productImages: [
         {
           _id: "img3",
-          imageUrl: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=300&fit=crop",
-          file: {}
-        }
+          imageUrl:
+            "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=300&fit=crop",
+          file: {},
+        },
       ],
       sizes: [
         {
@@ -124,7 +146,7 @@ const ProductPage: React.FC = () => {
           discountPrice: 55.99,
           discountPercentage: 15,
           quantity: 12,
-          colors: ["Green"]
+          colors: ["Green"],
         },
         {
           _id: "size6",
@@ -134,26 +156,28 @@ const ProductPage: React.FC = () => {
           discountPrice: 85.99,
           discountPercentage: 10,
           quantity: 7,
-          colors: ["Green"]
-        }
+          colors: ["Green"],
+        },
       ],
       category: "Fruit Trees",
       avgReview: 4.7,
       isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       _id: "4",
       productName: "Pine Tree - Eastern White",
       slug: "pine-tree-eastern-white",
-      productDescription: "Fast-growing evergreen pine tree. Excellent for windbreaks, privacy screens, and Christmas trees. Soft blue-green needles and graceful pyramidal shape.",
+      productDescription:
+        "Fast-growing evergreen pine tree. Excellent for windbreaks, privacy screens, and Christmas trees. Soft blue-green needles and graceful pyramidal shape.",
       productImages: [
         {
           _id: "img4",
-          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
-          file: {}
-        }
+          imageUrl:
+            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+          file: {},
+        },
       ],
       sizes: [
         {
@@ -164,7 +188,7 @@ const ProductPage: React.FC = () => {
           discountPrice: 65.99,
           discountPercentage: 13,
           quantity: 10,
-          colors: ["Green"]
+          colors: ["Green"],
         },
         {
           _id: "size8",
@@ -174,26 +198,28 @@ const ProductPage: React.FC = () => {
           discountPrice: 99.99,
           discountPercentage: 14,
           quantity: 6,
-          colors: ["Green"]
-        }
+          colors: ["Green"],
+        },
       ],
       category: "Evergreen Trees",
       avgReview: 4.6,
       isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       _id: "5",
       productName: "Cherry Blossom - Kwanzan",
       slug: "cherry-blossom-kwanzan",
-      productDescription: "Spectacular flowering cherry tree with double pink blooms. Creates a stunning spring display that lasts for weeks. Perfect ornamental tree for any landscape.",
+      productDescription:
+        "Spectacular flowering cherry tree with double pink blooms. Creates a stunning spring display that lasts for weeks. Perfect ornamental tree for any landscape.",
       productImages: [
         {
           _id: "img5",
-          imageUrl: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=300&fit=crop",
-          file: {}
-        }
+          imageUrl:
+            "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=300&fit=crop",
+          file: {},
+        },
       ],
       sizes: [
         {
@@ -204,7 +230,7 @@ const ProductPage: React.FC = () => {
           discountPrice: 75.99,
           discountPercentage: 12,
           quantity: 9,
-          colors: ["Pink", "Green"]
+          colors: ["Pink", "Green"],
         },
         {
           _id: "size10",
@@ -214,26 +240,28 @@ const ProductPage: React.FC = () => {
           discountPrice: 109.99,
           discountPercentage: 13,
           quantity: 4,
-          colors: ["Pink", "Green"]
-        }
+          colors: ["Pink", "Green"],
+        },
       ],
       category: "Flowering Trees",
       avgReview: 4.9,
       isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       _id: "6",
       productName: "Magnolia Tree - Southern",
       slug: "magnolia-tree-southern",
-      productDescription: "Elegant southern magnolia with large, fragrant white flowers. Glossy evergreen leaves provide year-round beauty. A true statement tree for any property.",
+      productDescription:
+        "Elegant southern magnolia with large, fragrant white flowers. Glossy evergreen leaves provide year-round beauty. A true statement tree for any property.",
       productImages: [
         {
           _id: "img6",
-          imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=300&fit=crop",
-          file: {}
-        }
+          imageUrl:
+            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=300&fit=crop",
+          file: {},
+        },
       ],
       sizes: [
         {
@@ -244,36 +272,38 @@ const ProductPage: React.FC = () => {
           discountPrice: 129.99,
           discountPercentage: 11,
           quantity: 6,
-          colors: ["Green", "White"]
+          colors: ["Green", "White"],
         },
         {
           _id: "size12",
           size: "L",
           price: 225.99,
-          inStock: true,
+          inStock: false,
           discountPrice: 199.99,
           discountPercentage: 12,
-          quantity: 3,
-          colors: ["Green", "White"]
-        }
+          quantity: 0,
+          colors: ["Green", "White"],
+        },
       ],
       category: "Flowering Trees",
       avgReview: 4.8,
       isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       _id: "7",
       productName: "Willow Tree - Weeping",
       slug: "willow-tree-weeping",
-      productDescription: "Graceful weeping willow tree perfect for waterfront properties. Fast-growing with distinctive drooping branches. Creates a peaceful, natural atmosphere.",
+      productDescription:
+        "Graceful weeping willow tree perfect for waterfront properties. Fast-growing with distinctive drooping branches. Creates a peaceful, natural atmosphere.",
       productImages: [
         {
           _id: "img7",
-          imageUrl: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&h=300&fit=crop",
-          file: {}
-        }
+          imageUrl:
+            "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&h=300&fit=crop",
+          file: {},
+        },
       ],
       sizes: [
         {
@@ -284,7 +314,7 @@ const ProductPage: React.FC = () => {
           discountPrice: 85.99,
           discountPercentage: 10,
           quantity: 8,
-          colors: ["Green"]
+          colors: ["Green"],
         },
         {
           _id: "size14",
@@ -294,26 +324,28 @@ const ProductPage: React.FC = () => {
           discountPrice: 139.99,
           discountPercentage: 10,
           quantity: 4,
-          colors: ["Green"]
-        }
+          colors: ["Green"],
+        },
       ],
       category: "Shade Trees",
       avgReview: 4.5,
       isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       _id: "8",
       productName: "Dogwood Tree - Flowering",
       slug: "dogwood-tree-flowering",
-      productDescription: "Beautiful native dogwood with white spring flowers and red fall berries. Compact size perfect for smaller yards. Attracts birds and adds seasonal interest.",
+      productDescription:
+        "Beautiful native dogwood with white spring flowers and red fall berries. Compact size perfect for smaller yards. Attracts birds and adds seasonal interest.",
       productImages: [
         {
           _id: "img8",
-          imageUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=300&fit=crop",
-          file: {}
-        }
+          imageUrl:
+            "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=300&fit=crop",
+          file: {},
+        },
       ],
       sizes: [
         {
@@ -324,7 +356,7 @@ const ProductPage: React.FC = () => {
           discountPrice: 49.99,
           discountPercentage: 11,
           quantity: 11,
-          colors: ["Green", "White"]
+          colors: ["Green", "White"],
         },
         {
           _id: "size16",
@@ -334,97 +366,164 @@ const ProductPage: React.FC = () => {
           discountPrice: 75.99,
           discountPercentage: 12,
           quantity: 6,
-          colors: ["Green", "White"]
-        }
+          colors: ["Green", "White"],
+        },
       ],
       category: "Native Trees",
       avgReview: 4.7,
       isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
-    }
-  ];
+      updatedAt: new Date(),
+    },
+  ], []);
 
-  // Fetch products based on the current page and search parameters
-  const {
-    data: responseData,
-    isLoading,
-    isError,
-    refetch,
-  } = useGetProductsQuery({
-    page: currentPage,
-    limit: 8,
-    searchTerm,
-    categoryName,
+  // Fetch products from API
+  const { data: responseData, isLoading } = useGetProductsQuery({
+    page: 1,
+    limit: 50,
   });
 
-  // Get the list of products and total pages from the API response
+  // Get the list of products from the API response
   const results = responseData?.data?.attributes?.results;
-  const totalResults = responseData?.data?.attributes?.totalResults;
 
   // Use API data if available, otherwise use static data
-  const productsToShow = (results && results.length > 0) ? results : staticProducts;
+  const productsToShow = useMemo(
+    () => (results && results.length > 0 ? results : staticProducts),
+    [results, staticProducts]
+  );
 
-  // Update the products data when results change
+  // Initialize products data
   useEffect(() => {
     setAllProductsData(productsToShow);
-  }, [results, isLoading, isError, productsToShow]);
+  }, [productsToShow]);
 
+  // Initialize filters from URL params
   useEffect(() => {
-    if (searchTerm) {
-      refetch();
+    const searchTerm = searchParams.get("searchTerm") || "";
+    const categoryName = searchParams.get("categoryName") || "";
+
+    setFilters((prev) => ({
+      ...prev,
+      search: searchTerm,
+      category: categoryName,
+    }));
+  }, [searchParams]);
+
+  // Apply filters and sorting to products
+  const filteredAndSortedProducts = useMemo(() => {
+    let filtered = [...allProductsData];
+
+    // Apply search filter
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      filtered = filtered.filter(
+        (product) =>
+          product.productName.toLowerCase().includes(searchLower) ||
+          product.productDescription.toLowerCase().includes(searchLower) ||
+          product.category.toLowerCase().includes(searchLower)
+      );
     }
-  }, [searchTerm, refetch]);
+
+    // Apply category filter
+    if (filters.category && filters.category !== "All Categories") {
+      filtered = filtered.filter(
+        (product) => product.category === filters.category
+      );
+    }
+
+    // Apply price range filter
+    filtered = filtered.filter((product) => {
+      const price =
+        product.sizes[0]?.discountPrice || product.sizes[0]?.price || 0;
+      return price >= filters.priceRange[0] && price <= filters.priceRange[1];
+    });
+
+    // Apply stock filter
+    if (filters.inStock) {
+      filtered = filtered.filter((product) => product.sizes[0]?.inStock);
+    }
+
+    // Apply sorting
+    switch (filters.sortBy) {
+      case "price-low-high":
+        filtered.sort((a, b) => {
+          const priceA = a.sizes[0]?.discountPrice || a.sizes[0]?.price || 0;
+          const priceB = b.sizes[0]?.discountPrice || b.sizes[0]?.price || 0;
+          return priceA - priceB;
+        });
+        break;
+      case "price-high-low":
+        filtered.sort((a, b) => {
+          const priceA = a.sizes[0]?.discountPrice || a.sizes[0]?.price || 0;
+          const priceB = b.sizes[0]?.discountPrice || b.sizes[0]?.price || 0;
+          return priceB - priceA;
+        });
+        break;
+      case "rating":
+        filtered.sort((a, b) => (b.avgReview || 0) - (a.avgReview || 0));
+        break;
+      case "name-a-z":
+        filtered.sort((a, b) => a.productName.localeCompare(b.productName));
+        break;
+      case "name-z-a":
+        filtered.sort((a, b) => b.productName.localeCompare(a.productName));
+        break;
+      case "newest":
+        filtered.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        break;
+      case "oldest":
+        filtered.sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+        break;
+      default:
+        break;
+    }
+
+    return filtered;
+  }, [allProductsData, filters]);
+
+  // Paginate products
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredAndSortedProducts.slice(startIndex, endIndex);
+  }, [filteredAndSortedProducts, currentPage, itemsPerPage]);
+
+  const handleFiltersChange = (newFilters: FilterOptions) => {
+    setFilters(newFilters);
+    setCurrentPage(1); // Reset to first page when filters change
+
+    // Update URL params for search and category
+    const params = new URLSearchParams();
+    if (newFilters.search) params.set("searchTerm", newFilters.search);
+    if (newFilters.category) params.set("categoryName", newFilters.category);
+
+    const newUrl = params.toString() ? `?${params.toString()}` : "";
+    router.push(`/products${newUrl}`, { scroll: false });
+  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-  
-  const handleSearch = (values: Record<string, any>) => {
-    const {
-      search,
-      companyType,
-      categoryName,
-      isMarketplace,
-      city,
-      state,
-      zipCode,
-      country,
-      nearby,
-    } = values;
-    if (!isMarketplace) {
-      const queryParams: Record<string, string> = {};
-      if (search) queryParams.searchTerm = search;
-      if (companyType) queryParams.companyType = companyType;
-      if (city) queryParams.city = city;
-      if (zipCode) queryParams.zipCode = zipCode;
-      if (state) queryParams.state = state;
-      if (country) queryParams.country = country;
-      if (nearby) queryParams.nearby = nearby;
-      const queryString = new URLSearchParams(queryParams).toString();
-      router.push(`/locate?${queryString}`);
-      return;
-    }
-    setCurrentPage(1);
-    const queryParams = new URLSearchParams(window.location.search);
-    if (search) {
-      queryParams.set("searchTerm", search);
-    } else {
-      queryParams.delete("searchTerm");
-    }
-    if (categoryName) {
-      queryParams.set("categoryName", categoryName);
-    } else {
-      queryParams.delete("categoryName");
-    }
-    window.history.pushState({}, "", `?${queryParams.toString()}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Set loading, error, and no data content
   let content: React.ReactNode = null;
-  if (isLoading && !staticProducts.length) {
+
+  if (isLoading && allProductsData.length === 0) {
     content = (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div
+        className={`grid ${
+          viewMode === "grid"
+            ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            : "grid-cols-1"
+        } gap-6`}
+      >
         {Array(8)
           .fill(0)
           .map((_, index) => (
@@ -432,20 +531,26 @@ const ProductPage: React.FC = () => {
           ))}
       </div>
     );
-  } else if (allProductsData.length === 0) {
+  } else if (paginatedProducts.length === 0) {
     content = <NoDataFound />;
   } else {
     content = (
       <>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {allProductsData?.map((productData: IProduct, index: number) => (
-            <ProductCard key={index} product={productData} />
+        <div
+          className={`grid ${
+            viewMode === "grid"
+              ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+              : "grid-cols-1 lg:grid-cols-2"
+          } gap-6`}
+        >
+          {paginatedProducts.map((productData: IProduct, index: number) => (
+            <ProductCard key={productData._id} product={productData} />
           ))}
         </div>
       </>
     );
   }
-  
+
   return (
     <section className="w-full">
       {/* Header Section with Background Image */}
@@ -459,10 +564,8 @@ const ProductPage: React.FC = () => {
           <Image
             src={locateImage}
             alt="Products"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-            className="absolute inset-0 z-0"
+            fill
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-black opacity-30"></div>
         </motion.div>
@@ -478,22 +581,89 @@ const ProductPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Search Section */}
-      <SearchSection onSearch={handleSearch} initialIsMarketplace />
+      {/* Main Content */}
+      <div className="w-full px-5 md:px-0 max-w-7xl mx-auto  py-10">
+        <div className="flex flex-col lg:flex-row gap-5">
+          {/* Left Sidebar - Filters */}
+          <div className="w-full lg:w-80 flex-shrink-0">
+            <ProductFilters
+              onFiltersChange={handleFiltersChange}
+              initialFilters={filters}
+            />
+          </div>
 
-      {/* Main Product Grid */}
-      <div className="w-full md:container px-5 py-10">
-        {content}
-        <div className="flex justify-between items-center mt-20">
-          <h1 className="text-xl font-semibold text-gray-600">
-            Search Results
-          </h1>
-          <Pagination
-            current={currentPage}
-            total={totalResults || staticProducts.length}
-            pageSize={8}
-            onChange={handlePageChange}
-          />
+          {/* Right Content Area */}
+          <div className="flex-1">
+            {/* Results Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-800">
+                  {filteredAndSortedProducts.length} Products Found
+                </h2>
+                {filters.search && (
+                  <p className="text-gray-600 text-sm">
+                    Showing results for {filters.search}
+                  </p>
+                )}
+                {filters.category && (
+                  <p className="text-gray-600 text-sm">
+                    Category: {filters.category}
+                  </p>
+                )}
+              </div>
+
+              {/* View Mode Toggle */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600 mr-2">View:</span>
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 rounded ${
+                    viewMode === "grid"
+                      ? "bg-primary text-white"
+                      : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                  } transition-colors`}
+                >
+                  <FaThLarge />
+                </button>
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-2 rounded ${
+                    viewMode === "list"
+                      ? "bg-primary text-white"
+                      : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                  } transition-colors`}
+                >
+                  <FaList />
+                </button>
+              </div>
+            </div>
+
+            {/* Products Grid/List */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              {content}
+            </motion.div>
+
+            {/* Pagination */}
+            {filteredAndSortedProducts.length > itemsPerPage && (
+              <div className="flex justify-center mt-12">
+                <Pagination
+                  current={currentPage}
+                  total={filteredAndSortedProducts.length}
+                  pageSize={itemsPerPage}
+                  onChange={handlePageChange}
+                  showSizeChanger={false}
+                  showQuickJumper
+                  showTotal={(total, range) =>
+                    `${range[0]}-${range[1]} of ${total} products`
+                  }
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

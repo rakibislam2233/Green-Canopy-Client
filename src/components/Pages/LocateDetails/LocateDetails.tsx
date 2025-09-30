@@ -4,20 +4,20 @@ import Button from "@/components/UI/Button";
 import InputComponent from "@/components/UI/InputComponent";
 import { imageBaseUrl } from "@/config/imageBaseUrl";
 import useUser from "@/hook/useUser";
-import Image from "next/image";
 import {
   useAddCompanyReviewMutation,
   useDeleteCompanyReviewMutation,
   useGetSingleCompanyQuery,
   useUpdateCompanyReviewMutation,
 } from "@/redux/features/company/companyApi";
-import { ICompany } from "@/types/horticultureType";
+import { ICompany } from "@/types/company";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { Form, Rate } from "antd";
 import moment from "moment";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaGlobe, FaPhone, FaRegStar, FaRegUser, FaStar } from "react-icons/fa";
+import { FaGlobe, FaPhone, FaRegStar, FaStar } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 import { toast } from "sonner";
 import Swal from "sweetalert2";

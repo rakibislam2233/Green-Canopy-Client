@@ -9,7 +9,7 @@ import { FaLeaf, FaArrowRight } from "react-icons/fa";
 import { ICategory } from "../Home/PopularCategory";
 
 const Categories = () => {
-  const { data: responseData, isLoading, isError } = useGetAllCategoryQuery(undefined);
+  const { data: responseData, isLoading } = useGetAllCategoryQuery(undefined);
   const categoryData = responseData?.data?.attributes?.results;
 
   // Static categories data as fallback
@@ -198,7 +198,7 @@ const Categories = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
               >
-                <Link href={`/marketplace?categoryName=${category?.categoryName}`}>
+                <Link href={`/products?categoryName=${category?.categoryName}`}>
                   <div className="relative h-48 overflow-hidden">
                     <Image
                       src={
@@ -243,36 +243,6 @@ const Categories = () => {
             showHomeButton={true}
           />
         )}
-
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-center mt-16 bg-white rounded-2xl shadow-xl p-8 md:p-12"
-        >
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-            Need Help Choosing?
-          </h3>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Our experts are here to help you select the perfect trees for your specific needs and growing conditions.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact-us"
-              className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              Get Expert Advice
-              <FaArrowRight className="ml-2" />
-            </Link>
-            <Link
-              href="/marketplace"
-              className="inline-flex items-center bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-green-300 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg"
-            >
-              Browse All Products
-            </Link>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
