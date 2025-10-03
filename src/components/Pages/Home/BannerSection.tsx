@@ -88,7 +88,7 @@ const BannerSection: React.FC = () => {
   return (
     <section className="relative w-full h-screen overflow-hidden bg-gray-900">
       {/* Background Images with Ken Burns Effect */}
-      {bannerData.map((banner, index) => (
+      {bannerData?.map((banner, index) => (
         <motion.div
           key={banner.id}
           className="absolute inset-0 w-full h-full"
@@ -116,7 +116,7 @@ const BannerSection: React.FC = () => {
       />
 
       {/* Animated Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
         {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
@@ -150,29 +150,29 @@ const BannerSection: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-20 flex flex-col items-center justify-center h-full text-center text-white px-6 max-w-6xl mx-auto">
+      <div className="relative z-20 flex flex-col items-center justify-center h-full text-center text-white px-4 md:px-6 max-w-7xl mx-auto">
         {/* Logo/Brand Animation */}
         <motion.div
-          className="mb-8"
+          className="mb-4 md:mb-8"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="flex items-center gap-3 text-2xl font-bold text-green-300">
+          <div className="flex items-center gap-2 md:gap-3 text-lg md:text-xl lg:text-2xl font-bold text-green-300">
             <motion.div
               animate={{ rotate: [0, 10, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              <TreePine size={32} />
+              <TreePine className="size-6 md:size-8" />
             </motion.div>
-            Green Canopy
+            <span className="text-base md:text-xl lg:text-2xl">Green Canopy</span>
           </div>
         </motion.div>
 
         {/* Main Title */}
         <motion.h1
           key={currentIndex}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight max-w-4xl md:max-w-5xl lg:max-w-6xl"
           initial={{ opacity: 0, y: 100, scale: 0.8 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -50 }}
@@ -191,7 +191,7 @@ const BannerSection: React.FC = () => {
         {/* Description */}
         <motion.p
           key={`desc-${currentIndex}`}
-          className="text-xl md:text-2xl text-gray-200 mb-12 max-w-4xl leading-relaxed"
+          className="text-sm sm:text-base md:text-lg  text-gray-200 mb-6 md:mb-8 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl leading-relaxed px-2"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -205,19 +205,19 @@ const BannerSection: React.FC = () => {
 
         {/* CTA Buttons */}
         <motion.div
-          className="flex flex-col md:flex-row gap-6"
+          className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6 w-full max-w-xs sm:max-w-sm md:max-w-md"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.9 }}
         >
           <motion.button
-            className="bg-gradient-to-r from-primary to-emerald-600  text-white font-semibold py-3 px-8 rounded"
+            className="bg-gradient-to-r from-primary to-emerald-600 text-white font-semibold py-2 px-6 md:py-3 md:px-8 text-sm md:text-base rounded-lg"
           >
             {currentBanner.buttonText}
           </motion.button>
 
           <motion.button
-            className="bg-white/20 backdrop-blur-sm border-2 border-white/30 hover:bg-white/30 text-white font-semibold py-3 px-8 rounded"
+            className="bg-white/20 backdrop-blur-sm border-2 border-white/30 hover:bg-white/30 text-white font-semibold py-2 px-6 md:py-3 md:px-8 text-sm md:text-base rounded-lg"
           >
             Learn More
           </motion.button>
@@ -227,25 +227,25 @@ const BannerSection: React.FC = () => {
       {/* Navigation Arrows */}
       <button
         onClick={goToPrevious}
-        className="absolute left-6 top-1/2 transform -translate-y-1/2 z-30 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 hover:scale-110"
+        className="absolute left-4 md:left-6 top-1/2 transform -translate-y-1/2 z-30 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-2 md:p-3 rounded-full transition-all duration-300 hover:scale-110"
       >
-        <ChevronLeft size={24} />
+        <ChevronLeft className="size-4 md:size-6" />
       </button>
 
       <button
         onClick={goToNext}
-        className="absolute right-6 top-1/2 transform -translate-y-1/2 z-30 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 hover:scale-110"
+        className="absolute right-4 md:right-6 top-1/2 transform -translate-y-1/2 z-30 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-2 md:p-3 rounded-full transition-all duration-300 hover:scale-110"
       >
-        <ChevronRight size={24} />
+        <ChevronRight className="size-4 md:size-6" />
       </button>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex space-x-3">
+      <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex space-x-2 md:space-x-3">
         {bannerData.map((_, index) => (
           <motion.button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`size-2 md:size-2.5 rounded-full transition-all duration-300 ${
               index === currentIndex
                 ? "bg-white scale-125"
                 : "bg-white/50 hover:bg-white/75"
@@ -258,7 +258,7 @@ const BannerSection: React.FC = () => {
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-8 right-8 z-30 text-white/70 text-sm"
+        className="absolute bottom-4 md:bottom-8 right-4 md:right-8 z-30 text-white/70 text-xs md:text-sm"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}
@@ -268,8 +268,8 @@ const BannerSection: React.FC = () => {
           transition={{ duration: 2, repeat: Infinity }}
           className="flex flex-col items-center"
         >
-          <div className="text-xs mb-2">Scroll Down</div>
-          <div className="w-px h-8 bg-gradient-to-b from-white/70 to-transparent"></div>
+          <div className="text-xs mb-1 md:mb-2">Scroll Down</div>
+          <div className="w-px h-6 md:h-8 bg-gradient-to-b from-white/70 to-transparent"></div>
         </motion.div>
       </motion.div>
     </section>

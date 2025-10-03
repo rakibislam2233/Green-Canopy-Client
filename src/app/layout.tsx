@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "sonner";
-import NextTopLoader from "nextjs-toploader";
 import { ConfigProvider } from "antd";
 import Providers from "@/lib/Providers";
 import React from "react";
@@ -49,18 +48,6 @@ export default function RootLayout({
           <Providers>
             <Toaster richColors position="top-center" />
             <CookiesConsent />
-            <NextTopLoader
-              color="#26725B"
-              initialPosition={0.08}
-              crawlSpeed={200}
-              height={3}
-              showSpinner={false}
-              crawl={true}
-              easing="ease"
-              speed={200}
-              zIndex={1600}
-              showAtBottom={false}
-            />
             {children}
           </Providers>
         </ConfigProvider>

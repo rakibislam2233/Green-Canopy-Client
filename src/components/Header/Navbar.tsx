@@ -27,28 +27,14 @@ const Navbar = () => {
       label: "Products",
       href: "/products",
     },
-    {
-      label: "Locate",
-      href: "/locate",
-    },
     { label: "About Us", href: "/about-us" },
     { label: "Contact", href: "/contact-us" },
   ];
-  if (user?.role === "businessman") {
-    navLink.push({
-      href: "/subscription",
-      label: "Subscription",
-    });
-  }
   const subNavLinks = [
     { label: "Home", href: "/" },
     {
       label: "Products",
       href: "/products",
-    },
-    {
-      label: "Locate",
-      href: "/locate",
     },
     { label: "About Us", href: "/about-us" },
     { label: "Contact", href: "/contact-us" },
@@ -78,7 +64,10 @@ const Navbar = () => {
     {
       key: "1",
       label: (
-        <Link href="/dashboard" className="cursor-pointer px-4 py-1">
+        <Link
+          href="/dashboard"
+          className="cursor-pointer px-4 py-2 text-sm md:text-base"
+        >
           Dashboard
         </Link>
       ),
@@ -86,7 +75,10 @@ const Navbar = () => {
     {
       key: "2",
       label: (
-        <Link href="/dashboard/orders" className="cursor-pointer px-4 py-1">
+        <Link
+          href="/dashboard/orders"
+          className="cursor-pointer px-4 py-2 text-sm md:text-base"
+        >
           Order
         </Link>
       ),
@@ -94,7 +86,10 @@ const Navbar = () => {
     {
       key: "3",
       label: (
-        <Link href="/dashboard/settings" className="cursor-pointer px-4 py-1">
+        <Link
+          href="/dashboard/settings"
+          className="cursor-pointer px-4 py-2 text-sm md:text-base"
+        >
           Settings
         </Link>
       ),
@@ -102,7 +97,10 @@ const Navbar = () => {
     {
       key: "4",
       label: (
-        <div onClick={handleLogout} className="cursor-pointer px-4 py-1">
+        <div
+          onClick={handleLogout}
+          className="cursor-pointer px-4 py-2 text-sm md:text-base"
+        >
           Logout
         </div>
       ),
@@ -110,32 +108,32 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="w-full py-2 border-b">
-      <div className="md:container flex justify-between items-center px-5">
+    <nav className="w-full py-2border-b">
+      <div className="container mx-auto px-4 md:px-5 flex justify-between items-center">
         {/* logo */}
-        <Link href="/">
+        <Link href="/" className="flex-shrink-0">
           <Image
             src={logo}
-            width={140}
-            height={140}
+            width={60}
+            height={60}
             alt="logo"
-            className="rounded-full"
+            className="rounded-full object-contain sm:w-[70px] sm:h-[70px] md:w-[80px] md:h-[80px]"
           />
         </Link>
 
         {/* Desktop Navigation Links */}
-        <ul className="hidden md:flex gap-5">
+        <ul className="hidden md:flex justify-center items-center gap-4 lg:gap-5">
           {navLink.map((link) => (
             <li key={link.href}>
-              <ActiveLink href={link.href} label={link.label} />
+              <ActiveLink href={link.href} label={link.label} key={link.href} />
             </li>
           ))}
         </ul>
-        <div className=" hidden md:flex items-center gap-8">
-          <Link href="/cart">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6">
+          <Link href="/cart" className="relative">
             <div className="relative">
-              <IoMdCart className="size-9 text-primary" />
-              <div className="size-[20px] bg-primary rounded-full flex justify-center items-center absolute -top-2 -right-1">
+              <IoMdCart className="size-6 md:size-7 text-primary" />
+              <div className="size-[16px] md:size-[18px] bg-primary rounded-full flex justify-center items-center absolute -top-2 -right-1">
                 <h1 className="text-xs text-white">{totalCartQuantity}</h1>
               </div>
             </div>
@@ -145,16 +143,16 @@ const Navbar = () => {
               menu={{
                 items: menuItems,
               }}
-              placement="top"
+              placement="bottomRight"
               arrow
             >
               {user && (
-                <div className="size-[50px] rounded-full bg-yellow-200 relative">
+                <div className="size-[40px] md:size-[50px] rounded-full bg-yellow-200 relative cursor-pointer">
                   <Image
                     fill
                     src={`${imageBaseUrl}${user?.image}`}
                     alt="User Image"
-                    className="rounded-full cursor-pointer ring ring-primary absolute"
+                    className="rounded-full cursor-pointer ring ring-primary absolute object-cover"
                   />
                 </div>
               )}
@@ -162,12 +160,12 @@ const Navbar = () => {
           ) : (
             <>
               <Link href="/login">
-                <button className="text-white bg-primary  px-10 py-3 rounded-lg">
+                <button className="text-white bg-primary px-4 py-2 md:px-6 md:py-2 rounded-lg text-sm md:text-base">
                   Login
                 </button>
               </Link>
               <Link href="/register">
-                <button className="px-8 py-3 border border-primary text-primary rounded-lg">
+                <button className="px-4 py-2 md:px-6 md:py-2 border border-primary text-primary rounded-lg text-sm md:text-base">
                   Register
                 </button>
               </Link>
@@ -178,24 +176,36 @@ const Navbar = () => {
         {/* Mobile Drawer Button */}
         <Button
           type="text"
-          className="md:hidden"
-          icon={<MenuOutlined />}
+          className="md:hidden text-xl"
+          icon={<MenuOutlined className="text-xl" />}
           onClick={showDrawer}
         />
 
         {/* Drawer for Mobile Navigation */}
         <Drawer
-          title="Horticulture Specialists"
+          title={
+            <div className="flex items-center gap-2">
+              <Image
+                src={logo}
+                width={40}
+                height={40}
+                alt="logo"
+                className="rounded-full"
+              />
+              <span className="text-lg">Green Canopy</span>
+            </div>
+          }
           placement="right"
           onClose={closeDrawer}
           open={isDrawerOpen}
+          className="md:hidden"
         >
-          <ul className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-4 mb-6">
             {subNavLinks?.map((link) => (
-              <li key={link?.href}>
+              <li key={link?.href} className="border-b border-gray-200 pb-2">
                 <Link
                   href={link?.href}
-                  className="text-gray-500 hover:text-gray-900"
+                  className="text-gray-700 hover:text-gray-900 text-lg font-medium block py-2"
                   onClick={closeDrawer} // Close the drawer on link click
                 >
                   {link?.label}
@@ -203,55 +213,74 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-          <div className="flex flex-col gap-4 mt-5">
-            <Link href="/cart">
-              <div className="relative size-12" onClick={closeDrawer}>
-                {/* Close the drawer on cart click */}
-                <IoMdCart className="size-9 text-primary" />
-                <div className="size-[20px] bg-primary rounded-full flex justify-center items-center absolute -top-2 -right-1">
-                  <h1 className="text-xs text-white">
-                    {totalCartQuantity ? totalCartQuantity : 0}
-                  </h1>
-                </div>
+          <div className="flex flex-col gap-6">
+            <div className="flex items-center justify-between py-3 border-b border-gray-200">
+              <Link
+                href="/cart"
+                className="flex items-center gap-3"
+                onClick={closeDrawer}
+              >
+                <IoMdCart className="size-7 text-primary" />
+                <span className="text-lg font-medium">Cart</span>
+              </Link>
+              <div className="size-[22px] bg-primary rounded-full flex justify-center items-center">
+                <h1 className="text-xs text-white">
+                  {totalCartQuantity ? totalCartQuantity : 0}
+                </h1>
               </div>
-            </Link>
+            </div>
+
             {user?.fullName ? (
               <>
-                <Link href="/dashboard">
-                  <div
-                    className="size-[60px] rounded-full bg-yellow-200 relative "
+                <div className="flex items-center gap-4 py-4">
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-3"
                     onClick={closeDrawer}
                   >
-                    {" "}
-                    {/* Close on dashboard click */}
-                    <Image
-                      fill
-                      src={`${imageBaseUrl}${user?.image}`}
-                      alt="User Image"
-                      className="rounded-full cursor-pointer ring ring-primary absolute"
-                    />
-                  </div>
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="text-white bg-primary hover:bg-green-600 px-10 py-3 rounded-lg mt-2"
-                >
-                  Logout
-                </button>
+                    <div className="size-[60px] rounded-full bg-yellow-200 relative overflow-hidden">
+                      <Image
+                        fill
+                        src={`${imageBaseUrl}${user?.image}`}
+                        alt="User Image"
+                        className="rounded-full cursor-pointer ring ring-primary absolute object-cover"
+                      />
+                    </div>
+                    <div>
+                      <p className="font-medium">{user?.fullName}</p>
+                      <p className="text-sm text-gray-500">{user?.email}</p>
+                    </div>
+                  </Link>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <Link href="/dashboard" onClick={closeDrawer}>
+                    <button className="w-full text-left text-gray-700 py-2 px-4 hover:bg-gray-100 rounded-lg">
+                      Dashboard
+                    </button>
+                  </Link>
+                  <Link href="/dashboard/orders" onClick={closeDrawer}>
+                    <button className="w-full text-left text-gray-700 py-2 px-4 hover:bg-gray-100 rounded-lg">
+                      Orders
+                    </button>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left text-red-600 py-2 px-4 hover:bg-gray-100 rounded-lg"
+                  >
+                    Logout
+                  </button>
+                </div>
               </>
             ) : (
-              <div className="flex flex-col gap-4 ">
+              <div className="flex flex-col gap-4">
                 <Link href="/login" onClick={closeDrawer}>
-                  {" "}
-                  {/* Close on login click */}
-                  <button className="text-white bg-primary hover:bg-green-600 px-10 py-3 rounded-lg">
+                  <button className="w-full text-white bg-primary hover:bg-green-600 px-6 py-3 rounded-lg text-base">
                     Login
                   </button>
                 </Link>
                 <Link href="/register" onClick={closeDrawer}>
-                  {" "}
-                  {/* Close on register click */}
-                  <button className="px-8 py-3 border border-primary text-primary rounded-lg">
+                  <button className="w-full px-6 py-3 border border-primary text-primary rounded-lg text-base">
                     Register
                   </button>
                 </Link>
